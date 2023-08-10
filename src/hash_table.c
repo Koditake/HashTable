@@ -94,8 +94,14 @@ void ht_insert (ht_hash_table* ht, const char* key, const char* value) {
 
     int i = 1;
 
-    while (cur_item != NULL) {
-        index = ht_get_hash(item->key, ht->size, i);
+    while (cur_item != NULL && cur_item != &HT_DELETED_ITEM)
+    {
+            // If key is already in the hash table, return value
+            if (strcmp(item->key, key) == 0) {
+                return item->value;
+            }
+
+            index = ht_get_hash(item->key, ht->size, i);
 
         cur_item = ht->items[index];
 
@@ -114,8 +120,11 @@ char* ht_search(ht_hash_table* ht, const char* key) {
     int i = 1;
 
     while (item != NULL) {
-        if (strcmp(item->key, key)) {
-            return item->value;
+        /* account for deleted item  */
+        if (item != &HT_DELETED_ITEM) {
+            if (strcmp(item->key, key)) {
+                return item->value;
+            }
         }
 
         index = ht_get_hash(key, ht->size, i);
