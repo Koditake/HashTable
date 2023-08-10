@@ -1,1 +1,6 @@
-/.vscode/
+#IDE Settings
+/.vscode/*
+
+#Project Testings
+/src/main.c
+/test/
